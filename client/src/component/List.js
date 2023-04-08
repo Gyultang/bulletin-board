@@ -1,25 +1,18 @@
 import React, { useState } from "react";
 
-const List = () => {
+const List = (props) => {
   const [Content, setContent] = useState("");
-  const [ContentList, setContentList] = useState([]);
 
-  const onSubmit = () => {
-    let tempArr = [...ContentList];
-    tempArr.push(Content);
-    setContentList([...tempArr]);
-    setContent("");
-  };
   return (
     <>
-      {ContentList.map((content, idx) => {
-        return <div key={idx}>{content}</div>;
+      {props.ContentList.map((content, idx) => {
+        return (
+          <div style={{ marginLeft: "1rem", width: "100%" }} key={idx}>
+            내용 : {content}
+            <hr />
+          </div>
+        );
       })}
-      <input
-        type="text"
-        value={Content}
-        onChange={(e) => setContent(e.currentTarget.value)}
-      />
     </>
   );
 };
