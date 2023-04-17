@@ -10,10 +10,11 @@ width: 80%;
 margin: 0 auto;
 display:flex;
 flex-direction:column;
-input{
+#title{
     border-radius:10px;
     border: 1px solid #c6c6c6;
     padding:10px;
+    margin-bottom:10px;
     &: active, &:focus{
         outline:none;
     }}
@@ -60,6 +61,7 @@ button{
     background-color: white;
     color: black;
     border:1px solid black;
+    }
 `;
 
 export { UploadButtonDiv, UploadForm, UploadDiv };

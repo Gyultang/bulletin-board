@@ -1,0 +1,8 @@
+server/config/dev.js
+server/node_modules
+server/package-lock.json
+client/node_modules
+client/package-lock.json
+client/node_modules
+client/.pnp
+.pnp.js
