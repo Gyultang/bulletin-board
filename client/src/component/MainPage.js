@@ -115,7 +115,7 @@ const MainPage = () => {
         <MoreBtn>
           <button
             style={{ marginBottom: "10vh" }}
-            onClick={() => getPostList()}
+            onClick={() => getPostLoadMore()}
           >
             더 불러오기
           </button>
