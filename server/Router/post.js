@@ -5,20 +5,31 @@ var router = express.Router();
 const { Post } = require("../Model/Post");
 const { Counter } = require("../Model/Counter.js");
 const multer = require("multer");
+const { User } = require("../Model/User");
 router.post("/submit", (req, res) => {
-  let temp = req.body;
+  let temp = {
+    title: req.body.title,
+    content: req.body.content,
+    image: req.body.image,
+  };
   Counter.findOne({ name: "counter" })
     .exec()
     .then((counter) => {
       temp.postNum = counter.postNum;
-      const CommunityPost = new Post(temp);
-      CommunityPost.save().then(() => {
-        Counter.updateOne({ name: "counter" }, { $inc: { postNum: 1 } }).then(
-          () => {
-            res.status(200).json({ success: true });
-          }
-        );
-      });
+      User.findOne({ uid: req.body.uid })
+        .exec()
+        .then((userInfo) => {
+          temp.author = userInfo._id;
+          const CommunityPost = new Post(temp);
+          CommunityPost.save().then(() => {
+            Counter.updateOne(
+              { name: "counter" },
+              { $inc: { postNum: 1 } }
+            ).then(() => {
+              res.status(200).json({ success: true });
+            });
+          });
+        });
     })
     .catch((err) => {
       res.status(400).json({ success: false });
@@ -26,7 +37,25 @@ router.post("/submit", (req, res) => {
 });
 
 router.post("/list", (req, res) => {
-  Post.find()
+  let sort = {};
+
+  if (req.body.sort === "최신순") {
+    sort.createdAt = -1;
+  } else {
+    // 댓글순
+    sort.repleNum = -1;
+  }
+
+  Post.find({
+    $or: [
+      { title: { $regex: req.body.search } },
+      { content: { $regex: req.body.search } },
+    ],
+  })
+    .populate("author")
+    .sort(sort)
+    .skip(req.body.skip) // 0, 5
+    .limit(5) // 한번에 찾을 doc 숫자
     .exec()
     .then((doc) => {
       res.status(200).json({ success: true, postList: doc });
@@ -38,6 +67,7 @@ router.post("/list", (req, res) => {
 
 router.post("/detail", (req, res) => {
   Post.findOne({ postNum: Number(req.body.postNum) })
+    .populate("author")
     .exec()
     .then((doc) => {
       console.log(doc);

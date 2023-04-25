@@ -46,12 +46,13 @@ const BtnDiv = styled.div`
     padding: 5px 10px;
     font-weight: bold;
     &.edit {
-      background-color: white;
-      color: black;
+      background-color: black;
+      color: white;
       border: 1px solid black;
+
       &:hover {
-        background-color: black;
-        color: white;
+        background-color: white;
+        color: black;
         border: 1px solid black;
       }
     }
@@ -62,8 +63,8 @@ const BtnDiv = styled.div`
       border: 1px solid red;
       &:hover {
         background-color: white;
-        color: red;
-        border: 1px solid red;
+        color: black;
+        border: 1px solid black;
       }
     }
   }

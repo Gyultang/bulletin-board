@@ -7,7 +7,6 @@ const port = 5000;
 const config = require("./config/key.js");
 const { mongoURI } = require("./config/dev.js");
 
-// mongodb+srv://rnfl0318:alwl0213%40@gyultang.gscu7o3.mongodb.net/?retryWrites=true&w=majority
 // 비밀번호에 @가 들어간 경우 @를 %40으로 대체
 // body로전달되는 내용을 파싱하기위해 body-parsor를 해야함 (따로 설치할필욘없음)
 
@@ -19,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // api에서 공통되는 부분을 빼줄수있음
 app.use("/api/post", require("./Router/post.js"));
+app.use("/api/user", require("./Router/user.js"));
+app.use("/api/reple", require("./Router/reple.js"));
 
 app.listen(port, () => {
   mongoose

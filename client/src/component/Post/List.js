@@ -1,30 +1,40 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import moment from "moment";
+import "moment/locale/ko";
 import { Link } from "react-router-dom";
 import { ListDiv, ListItem } from "../../Style/ListCSS";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const List = (props) => {
-  const [postList, setPostList] = useState([]);
-  useEffect(() => {
-    axios
-      // 3000번 포트에서 요청을 보낼거지만 5000번 포트에서 요청을 받기위해 프록시설정이 필요함!
-      .post("/api/post/list")
-      .then((res) => {
-        if (res.data.success) {
-          setPostList([...res.data.postList]);
-        }
-      })
-      .catch((err) => {
-        // 에러 핸들링
-        console.log(err);
-      });
-  }, []);
+  const SetTime = (a, b) => {
+    if (a !== b) {
+      return moment(b).format("lll") + "(수정됨)";
+    } else {
+      return moment(a).format("lll");
+    }
+  };
   return (
     <ListDiv>
-      {postList.map((post, idx) => {
+      {props.postList.map((post, idx) => {
+        console.log(post);
         return (
           <ListItem key={idx}>
             <Link to={`/post/${post.postNum}`}>
+              <div
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  lineHeight: "100%",
+                }}
+              >
+                <p className="author" style={{ marginRight: 8 }}>
+                  {/* <FontAwesomeIcon icon="faUser" /> */}
+                  {post.author.displayName}
+                </p>
+                <p style={{ fontSize: "12px" }}>
+                  {moment(post.createdAt).format("YYYY-MM-D hh:mm")}
+                </p>
+              </div>
               <p className="title">{post.title}</p>
               <p>{post.content}</p>
             </Link>
