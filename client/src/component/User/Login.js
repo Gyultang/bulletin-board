@@ -34,31 +34,57 @@ const Login = () => {
         e.preventDefault();
         console.log("클릭");
         const provider = new GoogleAuthProvider();
-        signInWithPopup(firebase.auth(), provider)
-            .then((data) => {
-                setUserData(data.user);
-                console.log("데이터", data);
+        try {
+            const data = await signInWithPopup(firebase.auth(), provider);
 
-                // 서버로 사용자 데이터 전송
-                axios
-                    .post("/api/user/register", {
-                        email: data.user.email,
-                        displayName: data.user.displayName,
-                        uid: data.user.uid,
-                        // ... 추가로 보낼 필요한 사용자 데이터
-                    })
-                    .then((response) => {
-                        console.log("서버 응답:", response.data);
-                    })
-                    .catch((error) => {
-                        console.error("서버 요청 오류:", error);
-                    });
+            // 이메일이 이미 데이터베이스에 있는지 확인(중복유저생성방지)
+            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(data.user.email);
 
+            setUserData(data.user);
+            console.log("데이터", data);
+            if (signInMethods && signInMethods.length > 0) {
                 navigate("/");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            } else {
+                // 서버로 사용자 데이터 전송
+                const response = await axios.post("/api/user/register", {
+                    email: data.user.email,
+                    displayName: data.user.displayName,
+                    uid: data.user.uid,
+                    // ... 추가로 보낼 필요한 사용자 데이터
+                });
+                console.log("서버 응답:", response.data);
+            }
+        } catch (error) {
+            console.error("에러:", error);
+        }
+        // signInWithPopup(firebase.auth(), provider)
+        //     .then((data) => {
+        //     // 이메일이 이미 데이터베이스에 있는지 확인
+        //     const emailExists = await checkIfEmailExists(data.user.email);
+
+        //         setUserData(data.user);
+        //         console.log("데이터", data);
+
+        //         // 서버로 사용자 데이터 전송
+        //         axios
+        //             .post("/api/user/register", {
+        //                 email: data.user.email,
+        //                 displayName: data.user.displayName,
+        //                 uid: data.user.uid,
+        //                 // ... 추가로 보낼 필요한 사용자 데이터
+        //             })
+        //             .then((response) => {
+        //                 console.log("서버 응답:", response.data);
+        //             })
+        //             .catch((error) => {
+        //                 console.error("서버 요청 오류:", error);
+        //             });
+
+        //         navigate("/");
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     };
     useEffect(() => {
         setTimeout(() => {
