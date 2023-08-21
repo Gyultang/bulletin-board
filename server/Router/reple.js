@@ -6,74 +6,69 @@ const { User } = require("../Model/User");
 const { Reple } = require("../Model/Reple");
 
 router.post("/submit", (req, res) => {
-  let temp = {
-    reple: req.body.reple,
-    postId: req.body.postId,
-  };
-  User.findOne({ uid: req.body.uid })
-    .exec()
-    .then((userInfo) => {
-      temp.author = userInfo._id;
-      const NewReple = new Reple(temp);
-      NewReple.save(() => {
-        Post.findOneAndUpdate(
-          { _id: req.body.postId },
-          { $inc: { repleNum: +1 } }
-        )
-          .exec()
-          .then(() => {
-            return res.status(200).json({ success: true });
-          });
-      });
-    })
-    .catch((err) => {
-      return res.status(400).json({ success: false });
-    });
+    let temp = {
+        reple: req.body.reple,
+        postId: req.body.postId,
+    };
+    User.findOne({ uid: req.body.uid })
+        .exec()
+        .then((userInfo) => {
+            temp.author = userInfo._id;
+            console.log("userInfo._id", userInfo._id);
+            const NewReple = new Reple(temp);
+            NewReple.save(() => {
+                Post.findOneAndUpdate({ _id: req.body.postId }, { $inc: { repleNum: +1 } })
+                    .exec()
+                    .then(() => {
+                        return res.status(200).json({ success: true });
+                    });
+            });
+        })
+        .catch((err) => {
+            return res.status(400).json({ success: false });
+        });
 });
 
 router.post("/getReple", (req, res) => {
-  Reple.find({ postId: req.body.postId })
-    .populate("author")
-    .exec()
-    .then((repleInfo) => {
-      return res.status(200).json({ success: true, repleList: repleInfo });
-    })
-    .catch((err) => {
-      return res.status(400).json({ success: false });
-    });
+    Reple.find({ postId: req.body.postId })
+        .populate("author")
+        .exec()
+        .then((repleInfo) => {
+            return res.status(200).json({ success: true, repleList: repleInfo });
+        })
+        .catch((err) => {
+            return res.status(400).json({ success: false });
+        });
 });
 router.post("/edit", (req, res) => {
-  let temp = {
-    postId: req.body.postId,
-    reple: req.body.reple,
-    uid: req.body.uid,
-  };
-  Reple.findOneAndUpdate({ _id: req.body.repleId }, { $set: temp })
-    .exec()
-    .then(() => {
-      return res.status(200).json({ success: true });
-    })
-    .catch((err) => {
-      return res.status(400).json({ success: false });
-    });
+    let temp = {
+        postId: req.body.postId,
+        reple: req.body.reple,
+        uid: req.body.uid,
+    };
+    Reple.findOneAndUpdate({ _id: req.body.repleId }, { $set: temp })
+        .exec()
+        .then(() => {
+            return res.status(200).json({ success: true });
+        })
+        .catch((err) => {
+            return res.status(400).json({ success: false });
+        });
 });
 
 // 댓글 삭제
 router.post("/delete", (req, res) => {
-  Reple.deleteOne({ _id: req.body.repleId })
-    .exec()
-    .then(() => {
-      Post.findOneAndUpdate(
-        { _id: req.body.postId },
-        { $inc: { repleNum: -1 } }
-      )
+    Reple.deleteOne({ _id: req.body.repleId })
         .exec()
         .then(() => {
-          return res.status(200).json({ success: true });
-        })
-        .catch((err) => {
-          return res.status(400).json({ success: false });
+            Post.findOneAndUpdate({ _id: req.body.postId }, { $inc: { repleNum: -1 } })
+                .exec()
+                .then(() => {
+                    return res.status(200).json({ success: true });
+                })
+                .catch((err) => {
+                    return res.status(400).json({ success: false });
+                });
         });
-    });
 });
 module.exports = router;

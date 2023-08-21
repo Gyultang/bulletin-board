@@ -44,6 +44,7 @@ const Login = () => {
                     .post("/api/user/register", {
                         email: data.user.email,
                         displayName: data.user.displayName,
+                        uid: data.user.uid,
                         // ... 추가로 보낼 필요한 사용자 데이터
                     })
                     .then((response) => {
