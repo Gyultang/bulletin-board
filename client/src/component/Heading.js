@@ -9,6 +9,7 @@ import firebase from "../firebase";
 
 const Heading = () => {
     const user = useSelector((state) => state.user);
+    console.log("유저테스트", user.displayName);
     const navigate = useNavigate();
     const headStyle = {
         color: "white",
@@ -40,6 +41,7 @@ const Heading = () => {
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
+                    {/* {user.displayName !== "" ? <Navbar.Text>{user.displayName}님</Navbar.Text> : null} */}
                     {user.accessToken === "" ? (
                         <Link to="/login" style={{ color: "white", textDecoration: "none" }}>
                             login

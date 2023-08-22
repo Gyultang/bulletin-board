@@ -34,7 +34,6 @@ const Login = () => {
     // 구글 로그인
     const signInGoogle = async (e) => {
         e.preventDefault();
-        console.log("클릭");
         const provider = new GoogleAuthProvider();
         try {
             const data = await signInWithPopup(firebase.auth(), provider);
@@ -55,6 +54,7 @@ const Login = () => {
                     // ... 추가로 보낼 필요한 사용자 데이터
                 });
                 console.log("서버 응답:", response.data);
+                navigate("/");
             }
         } catch (error) {
             console.error("에러:", error);
@@ -64,11 +64,13 @@ const Login = () => {
     // 깃허브 로그인
     const SignInGitHub = async (e) => {
         e.preventDefault();
-        const provider = new GithubAuthProvider();
+        // const provider = new GithubAuthProvider();
+        const githubProvider = new GithubAuthProvider();
         try {
-            const data = await signInWithPopup(firebase.auth(), provider);
+            const data = await signInWithPopup(firebase.auth(), githubProvider);
+            const email = data.user.email;
             // 이메일이 이미 데이터베이스에 있는지 확인(중복유저생성방지)
-            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(data.user.email);
+            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(email);
             setUserData(data.user);
             console.log("유저정보", data.user);
             if (signInMethods && signInMethods.length > 0) {
@@ -82,6 +84,7 @@ const Login = () => {
                     // ... 추가로 보낼 필요한 사용자 데이터
                 });
                 console.log("서버 응답:", response.data);
+                navigate("/");
             }
         } catch (error) {
             console.error("에러:", error);
@@ -99,7 +102,7 @@ const Login = () => {
                 <input id="email" type="email" value={Email} onChange={(e) => setEmail(e.currentTarget.value)} />
                 <label>비밀번호</label>
                 <input id="password" type="password" value={Pw} onChange={(e) => setPw(e.currentTarget.value)} />
-                {ErrMsg != "" && <p style={{ color: "red", fontSize: "12px" }}>{ErrMsg}</p>}
+                {ErrMsg !== "" && <p style={{ color: "red", fontSize: "12px" }}>{ErrMsg}</p>}
                 <button onClick={(e) => SingInFunc(e)}>로그인</button>
                 <button style={{ color: "red" }} onClick={(e) => signInGoogle(e)}>
                     Google
@@ -119,32 +122,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// signInWithPopup(firebase.auth(), provider)
-//     .then((data) => {
-//     // 이메일이 이미 데이터베이스에 있는지 확인
-//     const emailExists = await checkIfEmailExists(data.user.email);
-
-//         setUserData(data.user);
-//         console.log("데이터", data);
-
-//         // 서버로 사용자 데이터 전송
-//         axios
-//             .post("/api/user/register", {
-//                 email: data.user.email,
-//                 displayName: data.user.displayName,
-//                 uid: data.user.uid,
-//                 // ... 추가로 보낼 필요한 사용자 데이터
-//             })
-//             .then((response) => {
-//                 console.log("서버 응답:", response.data);
-//             })
-//             .catch((error) => {
-//                 console.error("서버 요청 오류:", error);
-//             });
-
-//         navigate("/");
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
