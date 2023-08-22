@@ -30,16 +30,12 @@ const Login = () => {
             }
         }
     };
-
-    // 구글 로그인
-    const signInGoogle = async (e) => {
-        e.preventDefault();
-        const provider = new GoogleAuthProvider();
+    const signInAndCheck = async (provider) => {
         try {
             const data = await signInWithPopup(firebase.auth(), provider);
-
+            const email = data.user.email;
             // 이메일이 이미 데이터베이스에 있는지 확인(중복유저생성방지)
-            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(data.user.email);
+            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(email);
 
             setUserData(data.user);
             console.log("유저정보", data.user);
@@ -61,34 +57,18 @@ const Login = () => {
         }
     };
 
+    // 구글 로그인
+    const signInGoogle = async (e) => {
+        e.preventDefault();
+        const GoogleProvider = new GoogleAuthProvider();
+        signInAndCheck(GoogleProvider);
+    };
+
     // 깃허브 로그인
     const SignInGitHub = async (e) => {
         e.preventDefault();
-        // const provider = new GithubAuthProvider();
         const githubProvider = new GithubAuthProvider();
-        try {
-            const data = await signInWithPopup(firebase.auth(), githubProvider);
-            const email = data.user.email;
-            // 이메일이 이미 데이터베이스에 있는지 확인(중복유저생성방지)
-            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(email);
-            setUserData(data.user);
-            console.log("유저정보", data.user);
-            if (signInMethods && signInMethods.length > 0) {
-                navigate("/");
-            } else {
-                // 서버로 사용자 데이터 전송
-                const response = await axios.post("/api/user/register", {
-                    email: data.user.email,
-                    displayName: data.user.displayName,
-                    uid: data.user.uid,
-                    // ... 추가로 보낼 필요한 사용자 데이터
-                });
-                console.log("서버 응답:", response.data);
-                navigate("/");
-            }
-        } catch (error) {
-            console.error("에러:", error);
-        }
+        signInAndCheck(githubProvider);
     };
     useEffect(() => {
         setTimeout(() => {
