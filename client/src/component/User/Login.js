@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LoginDiv from "../../Style/UserCSS.js";
 import { useNavigate } from "react-router-dom";
 import firebase from "../../firebase.js";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import axios from "axios";
 
 const Login = () => {
@@ -30,6 +30,8 @@ const Login = () => {
             }
         }
     };
+
+    // 구글 로그인
     const signInGoogle = async (e) => {
         e.preventDefault();
         console.log("클릭");
@@ -41,7 +43,7 @@ const Login = () => {
             const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(data.user.email);
 
             setUserData(data.user);
-            console.log("데이터", data);
+            console.log("유저정보", data.user);
             if (signInMethods && signInMethods.length > 0) {
                 navigate("/");
             } else {
@@ -57,34 +59,33 @@ const Login = () => {
         } catch (error) {
             console.error("에러:", error);
         }
-        // signInWithPopup(firebase.auth(), provider)
-        //     .then((data) => {
-        //     // 이메일이 이미 데이터베이스에 있는지 확인
-        //     const emailExists = await checkIfEmailExists(data.user.email);
+    };
 
-        //         setUserData(data.user);
-        //         console.log("데이터", data);
-
-        //         // 서버로 사용자 데이터 전송
-        //         axios
-        //             .post("/api/user/register", {
-        //                 email: data.user.email,
-        //                 displayName: data.user.displayName,
-        //                 uid: data.user.uid,
-        //                 // ... 추가로 보낼 필요한 사용자 데이터
-        //             })
-        //             .then((response) => {
-        //                 console.log("서버 응답:", response.data);
-        //             })
-        //             .catch((error) => {
-        //                 console.error("서버 요청 오류:", error);
-        //             });
-
-        //         navigate("/");
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+    // 깃허브 로그인
+    const SignInGitHub = async (e) => {
+        e.preventDefault();
+        const provider = new GithubAuthProvider();
+        try {
+            const data = await signInWithPopup(firebase.auth(), provider);
+            // 이메일이 이미 데이터베이스에 있는지 확인(중복유저생성방지)
+            const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(data.user.email);
+            setUserData(data.user);
+            console.log("유저정보", data.user);
+            if (signInMethods && signInMethods.length > 0) {
+                navigate("/");
+            } else {
+                // 서버로 사용자 데이터 전송
+                const response = await axios.post("/api/user/register", {
+                    email: data.user.email,
+                    displayName: data.user.displayName,
+                    uid: data.user.uid,
+                    // ... 추가로 보낼 필요한 사용자 데이터
+                });
+                console.log("서버 응답:", response.data);
+            }
+        } catch (error) {
+            console.error("에러:", error);
+        }
     };
     useEffect(() => {
         setTimeout(() => {
@@ -101,8 +102,9 @@ const Login = () => {
                 {ErrMsg != "" && <p style={{ color: "red", fontSize: "12px" }}>{ErrMsg}</p>}
                 <button onClick={(e) => SingInFunc(e)}>로그인</button>
                 <button style={{ color: "red" }} onClick={(e) => signInGoogle(e)}>
-                    google
+                    Google
                 </button>
+                <button onClick={(e) => SignInGitHub(e)}>GitHub</button>
                 <button
                     onClick={(e) => {
                         e.preventDefault();
@@ -117,3 +119,32 @@ const Login = () => {
 };
 
 export default Login;
+
+// signInWithPopup(firebase.auth(), provider)
+//     .then((data) => {
+//     // 이메일이 이미 데이터베이스에 있는지 확인
+//     const emailExists = await checkIfEmailExists(data.user.email);
+
+//         setUserData(data.user);
+//         console.log("데이터", data);
+
+//         // 서버로 사용자 데이터 전송
+//         axios
+//             .post("/api/user/register", {
+//                 email: data.user.email,
+//                 displayName: data.user.displayName,
+//                 uid: data.user.uid,
+//                 // ... 추가로 보낼 필요한 사용자 데이터
+//             })
+//             .then((response) => {
+//                 console.log("서버 응답:", response.data);
+//             })
+//             .catch((error) => {
+//                 console.error("서버 요청 오류:", error);
+//             });
+
+//         navigate("/");
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
