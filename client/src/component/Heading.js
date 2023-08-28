@@ -27,13 +27,13 @@ const Heading = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Link to="/" style={headStyle}>
+                        {/* <Link to="/" style={headStyle}>
                             list
                         </Link>
 
                         <Link to="/upload" style={headStyle}>
                             upload
-                        </Link>
+                        </Link> */}
 
                         {/* <Link to="/" style={headStyle}>
               list

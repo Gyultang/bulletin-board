@@ -5,6 +5,7 @@ import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { ListDiv } from "../Style/ListCSS";
 import { MoreBtn } from "../Style/MainPageCSS";
 import { useSelector } from "react-redux";
+import Sidebar from "./SideBar";
 
 const MainPage = () => {
     const [postList, setPostList] = useState([]);
@@ -74,49 +75,62 @@ const MainPage = () => {
     const Searchhandler = () => {
         getPostList();
     };
+    // const sidebarContent = (
+    //     <div style={{ width: "400px", height: "100%", backgroundColor: "lightgray", padding: "10px" }}>
+    //         {/* 사이드바 컨텐츠 */}
+    //         <p>Sidebar Content</p>
+    //     </div>
+    // );
+
     return (
-        <div>
-            {user.displayName !== "" ? <h4 style={{ padding: "1rem 0", margin: "0 auto", maxWidth: "756px" }}>{user.displayName}님</h4> : null}
-            <ListDiv
-                style={{
-                    display: "flex",
-                    height: 60,
-                    padding: "5px 0",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <div>
-                    <input
-                        style={{
-                            height: 35,
-                            borderRadius: 6,
-                            marginRight: 5,
-                            border: "1px solid dark",
-                        }}
-                        type="text"
-                        value={search}
-                        onChange={(e) => setSearch(e.currentTarget.value)}
-                        onKeyDown={(e) => {
-                            if (e.keyCode === 13) Searchhandler();
-                        }}
-                        placeholder="게시글 검색"
-                    />
-                    <Button variant="outline-secondary">검색</Button>
+        <div style={{ display: "flex" }}>
+            <Sidebar />
+            {/* <div>{sidebarContent}</div> */}
+            <div style={{ border: "4px solid yellow", width: "70%" }}>
+                {user.displayName !== "" ? <h4 style={{ padding: "1rem 0", margin: "0 auto", maxWidth: "756px" }}>{user.displayName}님</h4> : null}
+                <ListDiv
+                    style={{
+                        display: "flex",
+                        height: 60,
+                        padding: "5px 0",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                    }}
+                >
+                    <div>
+                        <input
+                            style={{
+                                height: 35,
+                                borderRadius: 6,
+                                marginRight: 5,
+                                border: "1px solid dark",
+                            }}
+                            type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.currentTarget.value)}
+                            onKeyDown={(e) => {
+                                if (e.keyCode === 13) Searchhandler();
+                            }}
+                            placeholder="게시글 검색"
+                        />
+                        <Button variant="outline-secondary">검색</Button>
+                    </div>
+                    <DropdownButton variant="outline-dark" title={sort}>
+                        <Dropdown.Item onClick={() => setSort("최신순")}>최신순</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setSort("댓글순")}>댓글순</Dropdown.Item>
+                    </DropdownButton>
+                </ListDiv>
+                <div style={{ maxHeight: "530px" }}>
+                    <List postList={postList} />
                 </div>
-                <DropdownButton variant="outline-dark" title={sort}>
-                    <Dropdown.Item onClick={() => setSort("최신순")}>최신순</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setSort("댓글순")}>댓글순</Dropdown.Item>
-                </DropdownButton>
-            </ListDiv>
-            <List postList={postList} />
-            {loadMore && (
-                <MoreBtn>
-                    <button style={{ marginBottom: "10vh" }} onClick={() => getPostLoadMore()}>
-                        더 불러오기
-                    </button>
-                </MoreBtn>
-            )}
+                {loadMore && (
+                    <MoreBtn>
+                        <button style={{ marginBottom: "3vh" }} onClick={() => getPostLoadMore()}>
+                            더 불러오기
+                        </button>
+                    </MoreBtn>
+                )}
+            </div>
         </div>
     );
 };
