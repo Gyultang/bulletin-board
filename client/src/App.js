@@ -13,6 +13,8 @@ import PostArea from "./component/Post/PostArea";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser, clearUser } from "./Reducer/userSlice";
 import firebase from "./firebase";
+import PhotoArea from "./component/Photo/PhotoArea";
+import Sidebar from "./component/SideBar";
 
 function App() {
     const dispatch = useDispatch();
@@ -33,14 +35,18 @@ function App() {
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", height: "100vh", backgroundColor: "skyblue", minHeight: "100vh" }}>
             <div style={{ width: "1300px", maxWidth: "100%", height: "800px", display: "flex", flexDirection: "column", border: "10px solid blue", borderRadius: "10px", backgroundColor: "pink", overflow: "auto" }}>
                 <Heading />
-                <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/Upload" element={<Upload />} />
-                    <Route path="/post/:postNum" element={<PostArea />} />
-                    <Route path="/edit/:postNum" element={<Edit />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                </Routes>
+                <div style={{ display: "flex", border: "1px solid black", height: "95%" }}>
+                    <Sidebar />
+                    <Routes>
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="/Upload" element={<Upload />} />
+                        <Route path="/post/:postNum" element={<PostArea />} />
+                        <Route path="/edit/:postNum" element={<Edit />} />
+                        <Route path="/photo" element={<PhotoArea />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Routes>
+                </div>
             </div>
         </div>
     );
