@@ -1,13 +1,16 @@
 import styled from "@emotion/styled";
 
 const UploadDiv = styled.div`
-  width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+    width: 100%;
+    // border: 10px solid red;
+    display: flex;
+    align-items: center;
 `;
 const UploadForm = styled.form`
 width: 80%;
+height: 85%;
 margin: 0 auto;
+// border: 10px solid black;
 display:flex;
 flex-direction:column;
 #title{
@@ -52,7 +55,7 @@ display:flex;
 justify-content:flex-end;
 button{
   padding: 5px 10px;
-  background-color: black;
+  background-color: #252129;
   border:none;
   border-radius: 15px;
   border:1px solid black;

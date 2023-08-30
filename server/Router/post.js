@@ -50,7 +50,8 @@ router.post("/list", (req, res) => {
         .populate("author")
         .sort(sort)
         .skip(req.body.skip) // 0, 5
-        .limit(5) // 한번에 찾을 doc 숫자
+        // 페이지네이션구현을 위한 limit해제
+        // .limit(5) // 한번에 찾을 doc 숫자
         .exec()
         .then((doc) => {
             res.status(200).json({ success: true, postList: doc });

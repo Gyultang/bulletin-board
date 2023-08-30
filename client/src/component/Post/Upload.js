@@ -55,7 +55,7 @@ const Upload = (props) => {
                 <label htmlFor="content">내용</label>
                 <textarea id="content" value={Content} onChange={(e) => setContent(e.currentTarget.value)} />
                 <UploadButtonDiv>
-                    <button onClick={(e) => onSubmit(e)}>제출!</button>
+                    <button onClick={(e) => onSubmit(e)}>등록</button>
                 </UploadButtonDiv>
             </UploadForm>
         </UploadDiv>

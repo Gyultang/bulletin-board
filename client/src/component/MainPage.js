@@ -75,16 +75,10 @@ const MainPage = () => {
     const Searchhandler = () => {
         getPostList();
     };
-    // const sidebarContent = (
-    //     <div style={{ width: "400px", height: "100%", backgroundColor: "lightgray", padding: "10px" }}>
-    //         {/* 사이드바 컨텐츠 */}
-    //         <p>Sidebar Content</p>
-    //     </div>
-    // );
 
     return (
-        <div style={{ border: "4px solid yellow", width: "100%" }}>
-            {user.displayName !== "" ? <h4 style={{ padding: "1rem 0", margin: "0 auto", maxWidth: "756px" }}>{user.displayName}님</h4> : null}
+        <div style={{ border: "4px solid yellow", width: "100%", height: "100%", padding: "0 1rem" }}>
+            {user.displayName !== "" ? <h4 style={{ padding: "1rem 0", maxWidth: "756px" }}>{user.displayName}님</h4> : <div style={{ padding: "1rem 0", maxWidth: "756px" }}></div>}
             <ListDiv
                 style={{
                     display: "flex",
@@ -97,7 +91,7 @@ const MainPage = () => {
                 <div>
                     <input
                         style={{
-                            height: 35,
+                            height: "auto",
                             borderRadius: 6,
                             marginRight: 5,
                             border: "1px solid dark",
@@ -117,16 +111,17 @@ const MainPage = () => {
                     <Dropdown.Item onClick={() => setSort("댓글순")}>댓글순</Dropdown.Item>
                 </DropdownButton>
             </ListDiv>
-            <div style={{ maxHeight: "530px" }}>
+            <div style={{ maxHeight: "500px" }}>
                 <List postList={postList} />
             </div>
-            {loadMore && (
+
+            {/* {loadMore && (
                 <MoreBtn>
-                    <button style={{ marginBottom: "3vh" }} onClick={() => getPostLoadMore()}>
+                    <button style={{ marginBottom: "1vh" }} onClick={() => getPostLoadMore()}>
                         더 불러오기
                     </button>
                 </MoreBtn>
-            )}
+            )} */}
         </div>
     );
 };
