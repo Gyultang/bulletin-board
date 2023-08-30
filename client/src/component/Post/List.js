@@ -35,7 +35,7 @@ const List = (props) => {
         }
     };
     return (
-        <div style={{ border: "3px solid gray", width: "100%", height: "580px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div style={{ width: "100%", height: "600px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <ListDiv>
                 {postsToShow.map((post, idx) => {
                     console.log(post);

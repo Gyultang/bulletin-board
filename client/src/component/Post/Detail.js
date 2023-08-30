@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/ko";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 
 const Detail = (props) => {
     let params = useParams();
@@ -40,37 +42,39 @@ const Detail = (props) => {
     };
     return (
         <PostDiv>
-            <>
-                <Post>
-                    <h1>{props.PostInfo.title}</h1>
-                    <div style={{ display: "flex" }}>
-                        <h4 style={{ fontSize: "14px", marginRight: 10 }}>{props.PostInfo.author.displayName}</h4>
-                        <p style={{ fontSize: "10px", marginRight: 8 }}>{moment(props.PostInfo.createdAt).format("YYYY-MM-D hh:mm")}</p>
-                        <p style={{ fontSize: "10px" }}>{SetTime(props.PostInfo.createdAt, props.PostInfo.updatedAt)}</p>
+            <Post>
+                <h1>{props.PostInfo.title}</h1>
+                <div style={{ display: "flex" }}>
+                    <h4 style={{ fontSize: "14px", marginRight: 10 }}>{props.PostInfo.author.displayName}</h4>
+                    <p style={{ fontSize: "10px", marginRight: 8 }}>{moment(props.PostInfo.createdAt).format("YYYY-MM-D hh:mm")}</p>
+                    <p style={{ fontSize: "10px" }}>{SetTime(props.PostInfo.createdAt, props.PostInfo.updatedAt)}</p>
+                </div>
+
+                {props.PostInfo.image ? <img style={{ width: "100%", minHeight: "400px", height: "400px", margin: "10px 0" }} src={`http://localhost:5000/${props.PostInfo.image} `} /> : null}
+                <p>{props.PostInfo.content}</p>
+            </Post>
+            {user.uid === props.PostInfo.author.uid ? (
+                <BtnDiv>
+                    <Link to={`/edit/${props.PostInfo.postNum}`}>
+                        <button className="edit" style={{ marginRight: 10 }}>
+                            수정
+                        </button>
+                    </Link>
+                    <button className="edit" onClick={(e) => DeleteHandler()}>
+                        삭제
+                    </button>
+                </BtnDiv>
+            ) : (
+                <BtnDiv>
+                    <div className="comment">
+                        <FontAwesomeIcon icon={faComment} flip="horizontal" />
                     </div>
 
-                    {props.PostInfo.image ? <img style={{ width: "100%", height: "auto", margin: "10px 0" }} src={`http://localhost:5000/${props.PostInfo.image} `} /> : null}
-                    <p>{props.PostInfo.content}</p>
-                </Post>
-                {user.uid === props.PostInfo.author.uid ? (
-                    <BtnDiv>
-                        <Link to={`/edit/${props.PostInfo.postNum}`}>
-                            <button className="edit" style={{ marginRight: 10 }}>
-                                수정
-                            </button>
-                        </Link>
-                        <button className="edit" onClick={(e) => DeleteHandler()}>
-                            삭제
-                        </button>
-                    </BtnDiv>
-                ) : (
-                    <BtnDiv>
-                        <Link to="/">
-                            <button className="edit">목록</button>
-                        </Link>
-                    </BtnDiv>
-                )}
-            </>
+                    <Link to="/">
+                        <button className="edit">목록</button>
+                    </Link>
+                </BtnDiv>
+            )}
         </PostDiv>
     );
 };

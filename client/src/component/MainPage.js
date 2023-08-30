@@ -41,6 +41,7 @@ const MainPage = () => {
                 console.log(err);
             });
     };
+    // 포스트 정렬 (검색, 정렬기준)
     const getPostList = () => {
         setSkip(0);
         let body = {
@@ -77,8 +78,8 @@ const MainPage = () => {
     };
 
     return (
-        <div style={{ border: "4px solid yellow", width: "100%", height: "100%", padding: "0 1rem" }}>
-            {user.displayName !== "" ? <h4 style={{ padding: "1rem 0", maxWidth: "756px" }}>{user.displayName}님</h4> : <div style={{ padding: "1rem 0", maxWidth: "756px" }}></div>}
+        <div style={{ width: "100%", height: "100%", padding: "0 1rem" }}>
+            {user.displayName !== "" ? <h4 style={{ padding: "10px 0", margin: "0", maxWidth: "756px", fontSize: "17px" }}>{user.displayName}님</h4> : <div style={{ padding: "1rem 0", maxWidth: "756px" }}></div>}
             <ListDiv
                 style={{
                     display: "flex",
@@ -94,7 +95,7 @@ const MainPage = () => {
                             height: "auto",
                             borderRadius: 6,
                             marginRight: 5,
-                            border: "1px solid dark",
+                            border: "none",
                         }}
                         type="text"
                         value={search}
@@ -104,7 +105,9 @@ const MainPage = () => {
                         }}
                         placeholder="게시글 검색"
                     />
-                    <Button variant="outline-secondary">검색</Button>
+                    <button className="search-btn" onClick={() => Searchhandler()}>
+                        검색
+                    </button>
                 </div>
                 <DropdownButton variant="outline-dark" title={sort}>
                     <Dropdown.Item onClick={() => setSort("최신순")}>최신순</Dropdown.Item>

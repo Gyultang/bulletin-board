@@ -40,9 +40,7 @@ const ListItem = styled.div`
 `;
 
 const PaginationBox = styled.div`
-    width: %;
     height: 50px;
-    border: 1px solid red;
     display: flex;
     justify-content: center;
     padding: 5px 0;

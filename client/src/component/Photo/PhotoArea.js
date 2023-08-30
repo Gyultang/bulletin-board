@@ -1,7 +1,7 @@
 import React from "react";
 
 const PhotoArea = () => {
-    return <div>PhotoArea</div>;
+    return <div style={{ width: "100%" }}>PhotoArea</div>;
 };
 
 export default PhotoArea;

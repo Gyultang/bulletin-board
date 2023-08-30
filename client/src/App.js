@@ -15,6 +15,7 @@ import { loginUser, clearUser } from "./Reducer/userSlice";
 import firebase from "./firebase";
 import PhotoArea from "./component/Photo/PhotoArea";
 import Sidebar from "./component/SideBar";
+import CalendarArea from "./component/Calendar/CalendarArea";
 
 function App() {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function App() {
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", height: "100vh", backgroundColor: "skyblue", minHeight: "100vh" }}>
             <div style={{ width: "1300px", maxWidth: "100%", height: "800px", display: "flex", flexDirection: "column", border: "10px solid blue", borderRadius: "10px", backgroundColor: "pink", overflow: "auto" }}>
                 <Heading />
-                <div style={{ display: "flex", border: "1px solid black", height: "95%" }}>
+                <div style={{ display: "flex", overflow: "hidden", height: "95%" }}>
                     <Sidebar />
                     <Routes>
                         <Route path="/" element={<MainPage />} />
@@ -43,6 +44,7 @@ function App() {
                         <Route path="/post/:postNum" element={<PostArea />} />
                         <Route path="/edit/:postNum" element={<Edit />} />
                         <Route path="/photo" element={<PhotoArea />} />
+                        <Route path="/calendar" element={<CalendarArea />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                     </Routes>

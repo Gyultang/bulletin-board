@@ -50,6 +50,63 @@
     border-color: #212529;
 }
 
+/* 댓글 모달버튼  */
+.comment {
+    margin-right: 15px;
+    margin-top: -5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* 검색버튼 */
+.search-btn {
+    background-color: #d8d8d8;
+    border-radius: 5px;
+    border: none;
+    font-size: 15px;
+    color: #212529;
+    font-weight: bold;
+}
+
+/* 캘린더 디자인 */
+.react-calendar {
+    width: 90% !important;
+    border-radius: 10px;
+    background-color: #a3cdf6 !important;
+    color: #2d2e2f;
+    border: 1px solid var(--festie-gray-400, #c8c8c8);
+    /* // 전체 틀: border, border-radius 조정 */
+}
+/* 캘린더 상단 날짜 */
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    border-radius: 50%;
+    background-color: #ffffff !important;
+}
+
+.react-calendar__navigation__label > span {
+    /* // 달력 상단 년/월 글씨 커스텀 */
+    color: var(--festie-gray-800, #3a3a3a);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 140%;
+}
+.react-calendar__navigation__label:hover {
+    border-radius: 0 !important;
+    background-color: #f8f8fa;
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+    background: #ff0808;
+    color: rgb(0, 0, 0) !important;
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background: #ffffff !important;
+    color: #1462b0;
+    border-radius: 5px;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);

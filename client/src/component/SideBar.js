@@ -29,7 +29,9 @@ const Sidebar = () => {
                 <Link to="/photo" style={sideStyle}>
                     photo
                 </Link>
-
+                <Link to="/calendar" style={sideStyle}>
+                    calendar
+                </Link>
                 <Nav.Link eventKey="disabled" disabled>
                     Disabled
                 </Nav.Link>
