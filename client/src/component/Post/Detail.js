@@ -9,10 +9,25 @@ import moment from "moment";
 import "moment/locale/ko";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
+import RepleModal from "../Reple/RepleModal";
 
 const Detail = (props) => {
     let params = useParams();
     let navigate = useNavigate();
+
+    // Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    const ModalComment = () => {
+        return (
+            <div className="comment">
+                <button onClick={openModal}>
+                    <FontAwesomeIcon icon={faComment} flip="horizontal" />
+                </button>
+            </div>
+        );
+    };
 
     const user = useSelector((state) => state.user);
     console.log("디테일", props);
@@ -55,26 +70,27 @@ const Detail = (props) => {
             </Post>
             {user.uid === props.PostInfo.author.uid ? (
                 <BtnDiv>
+                    <ModalComment />
                     <Link to={`/edit/${props.PostInfo.postNum}`}>
                         <button className="edit" style={{ marginRight: 10 }}>
                             수정
                         </button>
                     </Link>
-                    <button className="edit" onClick={(e) => DeleteHandler()}>
-                        삭제
-                    </button>
+                    <div>
+                        <button className="edit" onClick={(e) => DeleteHandler()}>
+                            삭제
+                        </button>
+                    </div>
                 </BtnDiv>
             ) : (
                 <BtnDiv>
-                    <div className="comment">
-                        <FontAwesomeIcon icon={faComment} flip="horizontal" />
-                    </div>
-
+                    <ModalComment />
                     <Link to="/">
                         <button className="edit">목록</button>
                     </Link>
                 </BtnDiv>
             )}
+            <RepleModal isOpen={isModalOpen} closeModal={closeModal} />
         </PostDiv>
     );
 };

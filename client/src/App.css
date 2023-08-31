@@ -53,9 +53,16 @@
 /* 댓글 모달버튼  */
 .comment {
     margin-right: 15px;
-    margin-top: -5px;
+    margin-top: -8px;
     font-size: 30px;
-    cursor: pointer;
+}
+.comment button {
+    color: #252129;
+    background-color: rgba(240, 248, 255, 0);
+    border: none;
+    height: 35px;
+    border-radius: 15px;
+    font-weight: bold;
 }
 
 /* 검색버튼 */
