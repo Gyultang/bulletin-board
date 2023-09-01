@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 const RepleAreaDiv = styled.div`
     padding-bottom: 1rem;
     width: 100%;
-    position: relative;
     margin: 0 auto;
     @media (max-width: 756px) {
         width: 90%;
@@ -12,7 +11,6 @@ const RepleAreaDiv = styled.div`
 
 const RepleUploadDiv = styled.div`
     width: 100%;
-    position: absolute;
     form {
         width: 100%;
         display: grid;
