@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 import { RepleAreaDiv } from "../../Style/RepleCSS";
 
 const RepleArea = (props) => {
-  const user = useSelector((state) => state.user);
-  return (
-    <RepleAreaDiv>
-      {user.accessToken && <RepleUpload postId={props.postId} />}
-      <RepleList postId={props.postId} />
-    </RepleAreaDiv>
-  );
+    const user = useSelector((state) => state.user);
+    return (
+        <RepleAreaDiv>
+            <RepleList postId={props.postId} />
+            {user.accessToken && <RepleUpload postId={props.postId} />}
+        </RepleAreaDiv>
+    );
 };
 
 export default RepleArea;

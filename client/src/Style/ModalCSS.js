@@ -1,13 +1,20 @@
 import styled from "@emotion/styled";
 
 const ModalDiv = styled.div`
+    padding: 5px 10px;
     position: fixed;
-    top: 90px;
-    left: 0;
-    width: 30vw;
-    height: 60vh;
+    top: 160px;
+    left: 43.5rem;
+    width: 40vw;
+    height: 70vh;
+    // height: auto;
     border: 3px solid black;
-    backgroundcolor: rgba(0, 0, 0, 0.35);
+    background-color: white;
 `;
 
-export { ModalDiv };
+const CloseBtn = styled.button`
+    border: none;
+    background-color: white;
+`;
+
+export { ModalDiv, CloseBtn };

@@ -90,7 +90,7 @@ const Detail = (props) => {
                     </Link>
                 </BtnDiv>
             )}
-            <RepleModal isOpen={isModalOpen} closeModal={closeModal} />
+            <RepleModal postId={props.PostInfo._id} isOpen={isModalOpen} closeModal={closeModal} />
         </PostDiv>
         // https://zindex.tistory.com/219
     );
