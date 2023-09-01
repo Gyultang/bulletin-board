@@ -92,6 +92,7 @@ const Detail = (props) => {
             )}
             <RepleModal isOpen={isModalOpen} closeModal={closeModal} />
         </PostDiv>
+        // https://zindex.tistory.com/219
     );
 };
 
